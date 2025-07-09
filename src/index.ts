@@ -1,9 +1,9 @@
+import * as fs from "node:fs";
+
 import { Drug } from "./drug";
 import { Pharmacy } from "./pharmacy";
 
-import fs from "fs";
-
-const drugs = [
+const drugs: Drug[] = [
   new Drug("Doliprane", 20, 30),
   new Drug("Herbal Tea", 10, 5),
   new Drug("Fervex", 12, 35),
@@ -12,7 +12,7 @@ const drugs = [
 ];
 const pharmacy = new Pharmacy(drugs);
 
-const log = [];
+const log: Drug[][] = [];
 
 for (let elapsedDays = 0; elapsedDays < 30; elapsedDays++) {
   log.push(JSON.parse(JSON.stringify(pharmacy.updateBenefitValue())));

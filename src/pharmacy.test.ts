@@ -1,10 +1,12 @@
+import { describe, it, expect, vi } from "vitest";
+
 import { Drug } from "./drug";
 import { Pharmacy } from "./pharmacy";
 
 describe("Pharmacy", () => {
   class TestDrug extends Drug {
-    updateBenefitValue = jest.fn();
-    updateExpiresInValue = jest.fn();
+    override updateBenefitValue = vi.fn();
+    override updateExpiresInValue = vi.fn();
   }
 
   it("should call for update expires in value for all except Magic Pill", () => {
