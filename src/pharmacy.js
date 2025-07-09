@@ -14,6 +14,8 @@ export class Pharmacy {
         this.drugs[i] = this._updateHerbalTea(this.drugs[i]);
       } else if (this.drugs[i].name === "Fervex") {
         this.drugs[i] = this._updateFervex(this.drugs[i]);
+      } else if (this.drugs[i].name === "Dafalgan") {
+        this.drugs[i] = this._updateDafalgan(this.drugs[i]);
       } else {
         this.drugs[i] = this._updateDefault(this.drugs[i]);
       }
@@ -61,6 +63,22 @@ export class Pharmacy {
       drug.benefit += 2;
     } else {
       drug.benefit += 1;
+    }
+
+    drug.expiresIn -= 1;
+
+    return drug;
+  }
+
+  _updateDafalgan(drug) {
+    if (drug.name !== "Dafalgan") {
+      throw new Error(`Only handle Dafalgan. Drug passed is '${drug.name}'`);
+    }
+
+    if (drug.expiresIn <= 0) {
+      drug.benefit -= 4;
+    } else {
+      drug.benefit -= 2;
     }
 
     drug.expiresIn -= 1;
