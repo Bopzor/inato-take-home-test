@@ -8,16 +8,26 @@ export class Pharmacy {
 
   updateBenefitValue() {
     for (let i = 0; i < this.drugs.length; i++) {
-      if (this.drugs[i].name === "Magic Pill") {
-        this.drugs[i] = this._updateMagicPill(this.drugs[i]);
-      } else if (this.drugs[i].name === "Herbal Tea") {
-        this.drugs[i] = this._updateHerbalTea(this.drugs[i]);
-      } else if (this.drugs[i].name === "Fervex") {
-        this.drugs[i] = this._updateFervex(this.drugs[i]);
-      } else if (this.drugs[i].name === "Dafalgan") {
-        this.drugs[i] = this._updateDafalgan(this.drugs[i]);
-      } else {
-        this.drugs[i] = this._updateDefault(this.drugs[i]);
+      switch (this.drugs[i].name) {
+        case "Magic Pill":
+          this.drugs[i] = this._updateMagicPill(this.drugs[i]);
+          break;
+
+        case "Herbal Tea":
+          this.drugs[i] = this._updateHerbalTea(this.drugs[i]);
+          break;
+
+        case "Fervex":
+          this.drugs[i] = this._updateFervex(this.drugs[i]);
+          break;
+
+        case "Dafalgan":
+          this.drugs[i] = this._updateDafalgan(this.drugs[i]);
+          break;
+
+        default:
+          this.drugs[i] = this._updateDefault(this.drugs[i]);
+          break;
       }
 
       this.drugs[i] = this._clampBenefit(this.drugs[i]);
