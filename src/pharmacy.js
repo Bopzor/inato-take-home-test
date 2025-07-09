@@ -1,122 +1,17 @@
 export class Pharmacy {
-  min_benefit = 0;
-  max_benefit = 50;
-
   constructor(drugs = []) {
     this.drugs = drugs;
   }
 
   updateBenefitValue() {
-    for (let i = 0; i < this.drugs.length; i++) {
-      switch (this.drugs[i].name) {
-        case "Magic Pill":
-          this.drugs[i] = this._updateMagicPill(this.drugs[i]);
-          break;
+    this.drugs.forEach(function (drug) {
+      drug.updateBenefitValue();
 
-        case "Herbal Tea":
-          this.drugs[i] = this._updateHerbalTea(this.drugs[i]);
-          break;
-
-        case "Fervex":
-          this.drugs[i] = this._updateFervex(this.drugs[i]);
-          break;
-
-        case "Dafalgan":
-          this.drugs[i] = this._updateDafalgan(this.drugs[i]);
-          break;
-
-        default:
-          this.drugs[i] = this._updateDefault(this.drugs[i]);
-          break;
+      if (drug.name !== "Magic Pill") {
+        drug.updateExpiresInValue();
       }
-
-      this.drugs[i] = this._clampBenefit(this.drugs[i]);
-    }
+    });
 
     return this.drugs;
-  }
-
-  _updateMagicPill(drug) {
-    if (drug.name !== "Magic Pill") {
-      throw new Error(`Only handle Magic Pill. Drug passed is '${drug.name}'`);
-    }
-
-    return drug;
-  }
-
-  _updateHerbalTea(drug) {
-    if (drug.name !== "Herbal Tea") {
-      throw new Error(`Only handle Herbal Tea. Drug passed is '${drug.name}'`);
-    }
-
-    if (drug.expiresIn <= 0) {
-      drug.benefit += 2;
-    } else {
-      drug.benefit += 1;
-    }
-
-    drug.expiresIn -= 1;
-
-    return drug;
-  }
-
-  _updateFervex(drug) {
-    if (drug.name !== "Fervex") {
-      throw new Error(`Only handle Fervex. Drug passed is '${drug.name}'`);
-    }
-
-    if (drug.expiresIn <= 0) {
-      drug.benefit = 0;
-    } else if (drug.expiresIn <= 5) {
-      drug.benefit += 3;
-    } else if (drug.expiresIn <= 10) {
-      drug.benefit += 2;
-    } else {
-      drug.benefit += 1;
-    }
-
-    drug.expiresIn -= 1;
-
-    return drug;
-  }
-
-  _updateDafalgan(drug) {
-    if (drug.name !== "Dafalgan") {
-      throw new Error(`Only handle Dafalgan. Drug passed is '${drug.name}'`);
-    }
-
-    if (drug.expiresIn <= 0) {
-      drug.benefit -= 4;
-    } else {
-      drug.benefit -= 2;
-    }
-
-    drug.expiresIn -= 1;
-
-    return drug;
-  }
-
-  _updateDefault(drug) {
-    if (drug.expiresIn <= 0) {
-      drug.benefit -= 2;
-    } else {
-      drug.benefit -= 1;
-    }
-
-    drug.expiresIn -= 1;
-
-    return drug;
-  }
-
-  _clampBenefit(drug) {
-    if (drug.benefit < this.min_benefit) {
-      drug.benefit = 0;
-    }
-
-    if (drug.benefit > this.max_benefit) {
-      drug.benefit = 50;
-    }
-
-    return drug;
   }
 }
