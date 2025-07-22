@@ -41,25 +41,19 @@ export class Drug {
   }
 
   _updateMagicPillBenefit() {
-    if (this.name !== "Magic Pill") {
-      throw new Error(`Only handle Magic Pill. Given Drug is '${this.name}'`);
-    }
+    this._ensureCorrectDrug("Magic Pill");
 
     return this.benefit;
   }
 
   _updateHerbalTeaBenefit() {
-    if (this.name !== "Herbal Tea") {
-      throw new Error(`Only handle Herbal Tea. Given Drug is '${this.name}'`);
-    }
+    this._ensureCorrectDrug("Herbal Tea");
 
     this._increaseBenefitValueByFactor(1);
   }
 
   _updateFervexBenefit() {
-    if (this.name !== "Fervex") {
-      throw new Error(`Only handle Fervex. Given Drug is '${this.name}'`);
-    }
+    this._ensureCorrectDrug("Fervex");
 
     if (this._isExpired()) {
       this.benefit = 0;
@@ -73,9 +67,7 @@ export class Drug {
   }
 
   _updateDafalganBenefit() {
-    if (this.name !== "Dafalgan") {
-      throw new Error(`Only handle Dafalgan. Given Drug is '${this.name}'`);
-    }
+    this._ensureCorrectDrug("Dafalgan");
 
     this._decreaseBenefitValueByFactor(2);
   }
@@ -104,6 +96,12 @@ export class Drug {
     return this.expiresIn <= 0;
   }
 
+  _ensureCorrectDrug(expectedName) {
+    if (this.name !== expectedName) {
+      throw new InvalidDrugError(expectedName, this.name);
+    }
+  }
+
   _clampBenefit() {
     if (this.benefit < MIN_BENEFIT) {
       this.benefit = MIN_BENEFIT;
@@ -112,5 +110,11 @@ export class Drug {
     if (this.benefit > MAX_BENEFIT) {
       this.benefit = MAX_BENEFIT;
     }
+  }
+}
+
+class InvalidDrugError extends Error {
+  constructor(expectedName, givenName) {
+    super(`Only handle ${expectedName}. Given Drug is '${givenName}'`);
   }
 }
