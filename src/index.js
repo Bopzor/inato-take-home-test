@@ -1,4 +1,5 @@
-import { Drug, Pharmacy } from "./pharmacy";
+import { Drug } from "./drug";
+import { Pharmacy } from "./pharmacy";
 
 import fs from "fs";
 
@@ -7,6 +8,7 @@ const drugs = [
   new Drug("Herbal Tea", 10, 5),
   new Drug("Fervex", 12, 35),
   new Drug("Magic Pill", 15, 40),
+  new Drug("Dafalgan", 18, 50),
 ];
 const pharmacy = new Pharmacy(drugs);
 
@@ -17,7 +19,7 @@ for (let elapsedDays = 0; elapsedDays < 30; elapsedDays++) {
 }
 
 fs.writeFile(
-  "output.json",
+  "src/output.json",
   JSON.stringify({ result: log }, null, 2).concat("\n"),
   (err) => {
     if (err) {
