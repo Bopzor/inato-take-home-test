@@ -1,7 +1,7 @@
+import { Drug } from "./drug";
+
 export class Pharmacy {
-  constructor(drugs = []) {
-    this.drugs = drugs;
-  }
+  constructor(public drugs: Drug[]) {}
 
   updateBenefitValue() {
     this.drugs.forEach(function (drug) {
