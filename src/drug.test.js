@@ -16,6 +16,24 @@ describe("Drug", () => {
   });
 
   describe("updateBenefitValue", () => {
+    describe("Benefit value cannot be lower 0 and over 50", () => {
+      it("should not decrease the benefit under 0", () => {
+        const drug = new Drug("test", 1, 0);
+
+        drug.updateBenefitValue();
+
+        expect(drug).toHaveProperty("benefit", 0);
+      });
+
+      it("should increase the benefit more than 50", () => {
+        const drug = new Drug("Herbal Tea", 0, 50);
+
+        drug.updateBenefitValue();
+
+        expect(drug).toHaveProperty("benefit", 50);
+      });
+    });
+
     describe("Default", () => {
       it("should decrease the benefit by 1", () => {
         const drug = new Drug("test", 2, 3);
@@ -31,22 +49,6 @@ describe("Drug", () => {
         drug.updateBenefitValue();
 
         expect(drug).toHaveProperty("benefit", 1);
-      });
-
-      it("should not decrease the benefit under 0", () => {
-        const drug = new Drug("test", 1, 0);
-
-        drug.updateBenefitValue();
-
-        expect(drug).toHaveProperty("benefit", 0);
-      });
-
-      it("should increase the benefit more than 50", () => {
-        const drug = new Drug("Herbal Tea", 0, 50);
-
-        drug.updateBenefitValue();
-
-        expect(drug).toHaveProperty("benefit", 50);
       });
     });
 
