@@ -100,11 +100,11 @@ export class Drug {
 
   _clampBenefit() {
     if (this.benefit < MIN_BENEFIT) {
-      this.benefit = 0;
+      this.benefit = MIN_BENEFIT;
     }
 
     if (this.benefit > MAX_BENEFIT) {
-      this.benefit = 50;
+      this.benefit = MAX_BENEFIT;
     }
   }
 }
