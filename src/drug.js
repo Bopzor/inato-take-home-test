@@ -1,5 +1,7 @@
 const MIN_BENEFIT = 0;
 const MAX_BENEFIT = 50;
+const UPDATE_BENEFIT_VALUE_STEP = 1;
+const UPDATE_EXPIRED_BENEFIT_VALUE_STEP = UPDATE_BENEFIT_VALUE_STEP * 2;
 
 export class Drug {
   constructor(name, expiresIn, benefit) {
@@ -51,11 +53,7 @@ export class Drug {
       throw new Error(`Only handle Herbal Tea. Given Drug is '${this.name}'`);
     }
 
-    if (this.expiresIn <= 0) {
-      this.benefit += 2;
-    } else {
-      this.benefit += 1;
-    }
+    this._increaseBenefitValueByFactor(1);
   }
 
   _updateFervexBenefit() {
@@ -63,14 +61,14 @@ export class Drug {
       throw new Error(`Only handle Fervex. Given Drug is '${this.name}'`);
     }
 
-    if (this.expiresIn <= 0) {
+    if (this._isExpired()) {
       this.benefit = 0;
     } else if (this.expiresIn <= 5) {
       this.benefit += 3;
     } else if (this.expiresIn <= 10) {
       this.benefit += 2;
     } else {
-      this.benefit += 1;
+      this._increaseBenefitValueByFactor(1);
     }
   }
 
@@ -79,23 +77,31 @@ export class Drug {
       throw new Error(`Only handle Dafalgan. Given Drug is '${this.name}'`);
     }
 
-    if (this.expiresIn <= 0) {
-      this.benefit -= 4;
-    } else {
-      this.benefit -= 2;
-    }
-
-    return this;
+    this._decreaseBenefitValueByFactor(2);
   }
 
   _updateDefaultBenefit() {
-    if (this.expiresIn <= 0) {
-      this.benefit -= 2;
-    } else {
-      this.benefit -= 1;
-    }
+    this._decreaseBenefitValueByFactor(1);
+  }
 
-    return this;
+  _decreaseBenefitValueByFactor(factor = 1) {
+    if (this._isExpired()) {
+      this.benefit -= UPDATE_EXPIRED_BENEFIT_VALUE_STEP * factor;
+    } else {
+      this.benefit -= UPDATE_BENEFIT_VALUE_STEP * factor;
+    }
+  }
+
+  _increaseBenefitValueByFactor(factor = 1) {
+    if (this._isExpired()) {
+      this.benefit += UPDATE_EXPIRED_BENEFIT_VALUE_STEP * factor;
+    } else {
+      this.benefit += UPDATE_BENEFIT_VALUE_STEP * factor;
+    }
+  }
+
+  _isExpired() {
+    return this.expiresIn <= 0;
   }
 
   _clampBenefit() {
